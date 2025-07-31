@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Shake4Cake</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="page-title">Profile</h1>
+            <div class="header-actions">
+                <button id="editProfileBtn" class="btn-header">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button id="settingsBtn" class="btn-header">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="profile-banner" id="profileBanner">
+            <div class="banner-overlay"></div>
+        </div>
+        
+        <div class="profile-info">
+            <div class="avatar-section">
+                <img id="userAvatar" src="https://via.placeholder.com/120x120?text=👤" alt="User Avatar" class="profile-avatar">
+                <button id="changeAvatarBtn" class="change-avatar-btn">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+            
+            <div class="user-details">
+                <h2 id="userName" class="user-name">Loading...</h2>
+                <p id="userEmail" class="user-email">email@example.com</p>
+                <p id="userBio" class="user-bio">No bio yet. Click edit to add one!</p>
+                <div class="user-meta">
+                    <span class="join-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        Joined <span id="joinDate">Date</span>
+                    </span>
+                    <span class="location" id="userLocation">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Location not set</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Stats -->
+    <section class="profile-stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3 id="contestsCreated">0</h3>
+                <p>Contests Created</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="submissionsMade">0</h3>
+                <p>Submissions</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="totalWins">0</h3>
+                <p>Wins</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="totalLikes">0</h3>
+                <p>Likes Received</p>
+            </div>
+        </div>
+        
+        <div class="achievements-section">
+            <h3>Achievements</h3>
+            <div id="userAchievements" class="achievements-grid">
+                <!-- Achievement badges will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Tabs -->
+    <section class="profile-tabs">
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="contests">
+                <i class="fas fa-trophy"></i>
+                My Contests
+            </button>
+            <button class="tab-btn" data-tab="submissions">
+                <i class="fas fa-video"></i>
+                My Submissions
+            </button>
+            <button class="tab-btn" data-tab="favorites">
+                <i class="fas fa-heart"></i>
+                Favorites
+            </button>
+            <button class="tab-btn" data-tab="following">
+                <i class="fas fa-users"></i>
+                Following
+            </button>
+        </div>
+    </section>
+
+    <!-- Tab Content -->
+    <main class="tab-content">
+        <!-- My Contests Tab -->
+        <div id="contestsTab" class="tab-panel active">
+            <div class="tab-header">
+                <h3>My Contests</h3>
+                <button class="btn-primary" onclick="window.location.href='upload.html'">
+                    <i class="fas fa-plus"></i>
+                    Create Contest
+                </button>
+            </div>
+            <div id="userContests" class="content-grid">
+                <!-- User's contests will be loaded here -->
+            </div>
+        </div>
+
+        <!-- My Submissions Tab -->
+        <div id="submissionsTab" class="tab-panel">
+            <div class="tab-header">
+                <h3>My Submissions</h3>
+                <div class="filter-options">
+                    <select id="submissionFilter">
+                        <option value="all">All Submissions</option>
+                        <option value="won">Won Contests</option>
+                        <option value="pending">Pending Results</option>
+                        <option value="lost">Not Won</option>
+                    </select>
+                </div>
+            </div>
+            <div id="userSubmissions" class="content-grid">
+                <!-- User's submissions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Favorites Tab -->
+        <div id="favoritesTab" class="tab-panel">
+            <div class="tab-header">
+                <h3>Favorite Contests</h3>
+                <p class="tab-description">Contests you've liked or bookmarked</p>
+            </div>
+            <div id="userFavorites" class="content-grid">
+                <!-- User's favorite contests will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Following Tab -->
+        <div id="followingTab" class="tab-panel">
+            <div class="tab-header">
+                <h3>Following</h3>
+                <p class="tab-description">Creators and users you follow</p>
+            </div>
+            <div id="userFollowing" class="following-grid">
+                <!-- Users being followed will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Templates -->
+    <template id="contestItemTemplate">
+        <div class="contest-item" data-contest-id="">
+            <div class="contest-thumbnail">
+                <img src="" alt="Contest" class="contest-image">
+                <div class="contest-status">
+                    <span class="status-badge"></span>
+                </div>
+            </div>
+            <div class="contest-details">
+                <h4 class="contest-title"></h4>
+                <p class="contest-description"></p>
+                <div class="contest-meta">
+                    <span class="contest-date"></span>
+                    <span class="contest-stats">
+                        <i class="fas fa-users"></i>
+                        <span class="participants">0</span>
+                        participants
+                    </span>
+                </div>
+                <div class="contest-prize">
+                    <i class="fas fa-gift"></i>
+                    <span class="prize-amount"></span>
+                </div>
+            </div>
+            <div class="contest-actions">
+                <button class="btn-secondary edit-contest">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </button>
+                <button class="btn-primary view-contest">
+                    <i class="fas fa-eye"></i>
+                    View
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <template id="submissionItemTemplate">
+        <div class="submission-item" data-submission-id="">
+            <div class="submission-thumbnail">
+                <video class="submission-video" muted>
+                    <source src="" type="video/mp4">
+                </video>
+                <div class="submission-result">
+                    <span class="result-badge"></span>
+                </div>
+            </div>
+            <div class="submission-details">
+                <h4 class="submission-title"></h4>
+                <p class="contest-name">From: <span class="contest-title"></span></p>
+                <div class="submission-stats">
+                    <span class="likes">
+                        <i class="fas fa-heart"></i>
+                        <span class="like-count">0</span>
+                    </span>
+                    <span class="views">
+                        <i class="fas fa-eye"></i>
+                        <span class="view-count">0</span>
+                    </span>
+                    <span class="submission-date"></span>
+                </div>
+            </div>
+            <div class="submission-actions">
+                <button class="btn-secondary view-submission">
+                    <i class="fas fa-play"></i>
+                    View
+                </button>
+                <button class="btn-icon delete-submission">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <template id="followingItemTemplate">
+        <div class="following-item" data-user-id="">
+            <img src="" alt="User" class="user-avatar">
+            <div class="user-info">
+                <h4 class="username"></h4>
+                <p class="user-stats">
+                    <span class="contests-count">0 contests</span> • 
+                    <span class="wins-count">0 wins</span>
+                </p>
+                <div class="follow-date">Following since <span class="date"></span></div>
+            </div>
+            <div class="follow-actions">
+                <button class="btn-secondary view-profile">
+                    <i class="fas fa-eye"></i>
+                    View
+                </button>
+                <button class="btn-outline unfollow-user">
+                    <i class="fas fa-user-minus"></i>
+                    Unfollow
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <template id="achievementTemplate">
+        <div class="achievement-badge" data-achievement="">
+            <div class="badge-icon"></div>
+            <div class="badge-info">
+                <h5 class="badge-name"></h5>
+                <p class="badge-description"></p>
+            </div>
+        </div>
+    </template>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Feed</span>
+        </a>
+        <a href="explore.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Explore</span>
+        </a>
+        <a href="upload.html" class="nav-item upload-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="leaderboard.html" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Rankings</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal hidden">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="editDisplayName">Display Name</label>
+                        <input type="text" id="editDisplayName" maxlength="50">
+                        <small class="char-count">0/50</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editBio">Bio</label>
+                        <textarea id="editBio" placeholder="Tell people about yourself..." maxlength="200" rows="3"></textarea>
+                        <small class="char-count">0/200</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLocation">Location</label>
+                        <input type="text" id="editLocation" placeholder="Where are you from?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editWebsite">Website</label>
+                        <input type="url" id="editWebsite" placeholder="https://your-website.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editSocialLinks">Social Links</label>
+                        <div class="social-inputs">
+                            <input type="text" id="editInstagram" placeholder="Instagram username">
+                            <input type="text" id="editTikTok" placeholder="TikTok username">
+                            <input type="text" id="editYouTube" placeholder="YouTube channel">
+                        </div>
+                    </div>
+                    
+                    <div class="privacy-settings">
+                        <h4>Privacy Settings</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="profilePublic" checked>
+                            <span class="checkmark"></span>
+                            Make profile public
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showEmail">
+                            <span class="checkmark"></span>
+                            Show email on profile
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="allowMessages" checked>
+                            <span class="checkmark"></span>
+                            Allow direct messages
+                        </label>
+                    </div>
+                </form>
+                
+                <div class="modal-actions">
+                    <button class="btn-secondary modal-close">Cancel</button>
+                    <button id="saveProfileBtn" class="btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4>Notifications</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="emailNotifications" checked>
+                        <span class="checkmark"></span>
+                        Email notifications
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="pushNotifications" checked>
+                        <span class="checkmark"></span>
+                        Push notifications
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="contestReminders" checked>
+                        <span class="checkmark"></span>
+                        Contest deadline reminders
+                    </label>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Account</h4>
+                    <button class="btn-secondary full-width" id="changePasswordBtn">
+                        <i class="fas fa-key"></i>
+                        Change Password
+                    </button>
+                    <button class="btn-secondary full-width" id="downloadDataBtn">
+                        <i class="fas fa-download"></i>
+                        Download My Data
+                    </button>
+                    <button class="btn-danger full-width" id="deleteAccountBtn">
+                        <i class="fas fa-trash"></i>
+                        Delete Account
+                    </button>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-secondary modal-close">Close</button>
+                    <button id="saveSettingsBtn" class="btn-primary">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar Upload Modal -->
+    <div id="avatarModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Profile Picture</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-upload">
+                    <div class="upload-area" id="avatarUploadArea">
+                        <i class="fas fa-camera"></i>
+                        <p>Click to select a photo</p>
+                        <small>JPG, PNG, or GIF. Max 2MB.</small>
+                    </div>
+                    <input type="file" id="avatarFile" accept="image/*" hidden>
+                    <div class="avatar-preview hidden" id="avatarPreview">
+                        <img src="" alt="Avatar Preview" id="previewImage">
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-secondary modal-close">Cancel</button>
+                    <button id="uploadAvatarBtn" class="btn-primary">Upload Photo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/profile.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>
