@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contest - Shake4Cake</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/contest.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="contest-header-info">
+                <h1 id="contestTitle" class="contest-title">Loading...</h1>
+                <div class="contest-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="contestTimer">00:00:00</span>
+                </div>
+            </div>
+            <button class="share-btn" id="shareBtn">
+                <i class="fas fa-share"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Contest Info Section -->
+    <section class="contest-info">
+        <div class="contest-details">
+            <div class="creator-info">
+                <img id="creatorAvatar" src="" alt="Creator" class="creator-avatar">
+                <div>
+                    <h3 id="creatorName">Creator Name</h3>
+                    <p id="contestDate">Contest Date</p>
+                </div>
+            </div>
+            <div class="contest-prize">
+                <i class="fas fa-gift"></i>
+                <span id="contestPrize">Prize</span>
+            </div>
+        </div>
+        
+        <div class="contest-description">
+            <p id="contestDescription">Contest description will appear here...</p>
+        </div>
+
+        <div class="contest-stats">
+            <div class="stat">
+                <i class="fas fa-users"></i>
+                <span id="participantCount">0</span>
+                <small>Participants</small>
+            </div>
+            <div class="stat">
+                <i class="fas fa-video"></i>
+                <span id="submissionCount">0</span>
+                <small>Submissions</small>
+            </div>
+            <div class="stat">
+                <i class="fas fa-eye"></i>
+                <span id="viewCount">0</span>
+                <small>Views</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contest Media Section -->
+    <section class="contest-media-section">
+        <div class="media-container" id="contestMediaContainer">
+            <!-- Contest media will be loaded here -->
+        </div>
+        
+        <!-- Audio player for background music during video recording -->
+        <audio id="backgroundAudio" loop style="display: none;">
+            <source id="audioSource" src="" type="audio/mpeg">
+        </audio>
+    </section>
+
+    <!-- Recording Section -->
+    <section class="recording-section" id="recordingSection">
+        <div class="recording-controls">
+            <h3>Create Your Submission</h3>
+            <p>Record your video with the contest music playing in the background</p>
+            
+            <div class="camera-preview">
+                <video id="cameraPreview" autoplay muted playsinline></video>
+                <canvas id="recordingCanvas" style="display: none;"></canvas>
+            </div>
+
+            <div class="recording-buttons">
+                <button id="startRecordingBtn" class="btn-record">
+                    <i class="fas fa-video"></i>
+                    Start Recording
+                </button>
+                <button id="stopRecordingBtn" class="btn-stop hidden">
+                    <i class="fas fa-stop"></i>
+                    Stop Recording
+                </button>
+                <button id="playPauseBtn" class="btn-secondary">
+                    <i class="fas fa-play"></i>
+                    Play Music
+                </button>
+            </div>
+
+            <div class="recording-timer hidden" id="recordingTimer">
+                <span>Recording: 00:00</span>
+            </div>
+        </div>
+
+        <!-- Recorded Video Preview -->
+        <div class="video-preview hidden" id="videoPreview">
+            <h4>Preview Your Submission</h4>
+            <video id="previewVideo" controls></video>
+            <div class="preview-actions">
+                <button id="retakeBtn" class="btn-secondary">
+                    <i class="fas fa-redo"></i>
+                    Retake
+                </button>
+                <button id="submitVideoBtn" class="btn-primary">
+                    <i class="fas fa-upload"></i>
+                    Submit Entry
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Submissions Section -->
+    <section class="submissions-section">
+        <div class="submissions-header">
+            <h3>Contest Entries</h3>
+            <div class="sort-options">
+                <select id="sortSubmissions">
+                    <option value="likes">Most Liked</option>
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="submissionsList" class="submissions-list">
+            <!-- Submissions will be loaded here -->
+        </div>
+        
+        <div class="load-more">
+            <button id="loadMoreBtn" class="btn-secondary">
+                <i class="fas fa-plus"></i>
+                Load More Entries
+            </button>
+        </div>
+    </section>
+
+    <!-- Submission Card Template -->
+    <template id="submissionTemplate">
+        <div class="submission-card" data-submission-id="">
+            <div class="submission-header">
+                <div class="user-info">
+                    <img src="" alt="User" class="user-avatar">
+                    <div class="user-details">
+                        <h4 class="username"></h4>
+                        <p class="submission-date"></p>
+                    </div>
+                </div>
+                <div class="submission-actions">
+                    <button class="btn-icon report-btn" title="Report">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="submission-content">
+                <video class="submission-video" controls preload="metadata">
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="submission-footer">
+                <div class="engagement">
+                    <button class="like-btn" data-liked="false">
+                        <i class="far fa-heart"></i>
+                        <span class="like-count">0</span>
+                    </button>
+                    <button class="comment-btn">
+                        <i class="far fa-comment"></i>
+                        <span class="comment-count">0</span>
+                    </button>
+                    <button class="share-btn">
+                        <i class="fas fa-share"></i>
+                    </button>
+                </div>
+                <div class="vote-section">
+                    <button class="vote-btn" data-voted="false">
+                        <i class="fas fa-trophy"></i>
+                        Vote for Winner
+                    </button>
+                </div>
+            </div>
+            
+            <div class="comments-section hidden">
+                <div class="comments-list"></div>
+                <div class="add-comment">
+                    <input type="text" placeholder="Add a comment..." class="comment-input">
+                    <button class="btn-primary submit-comment">Post</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Feed</span>
+        </a>
+        <a href="explore.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Explore</span>
+        </a>
+        <a href="upload.html" class="nav-item upload-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="leaderboard.html" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Rankings</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Modals -->
+    <div id="permissionsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Camera & Microphone Access</h3>
+            </div>
+            <div class="modal-body">
+                <p>To record your submission, we need access to your camera and microphone.</p>
+                <div class="modal-actions">
+                    <button id="enablePermissions" class="btn-primary">Enable Access</button>
+                    <button class="modal-close btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="submissionModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Submit Your Entry</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="submissionTitle">Title (Optional)</label>
+                    <input type="text" id="submissionTitle" placeholder="Give your submission a title...">
+                </div>
+                <div class="form-group">
+                    <label for="submissionDescription">Description (Optional)</label>
+                    <textarea id="submissionDescription" placeholder="Describe your submission..."></textarea>
+                </div>
+                <div class="upload-progress hidden" id="submissionProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary modal-close">Cancel</button>
+                    <button id="finalSubmitBtn" class="btn-primary">Submit Entry</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/contest.js"></script>
+    <script type="module" src="js/recorder.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>

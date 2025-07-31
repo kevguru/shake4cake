@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shake4Cake - Social Media Contests</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/feed.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🎂 Shake4Cake</h1>
+            <div class="header-actions">
+                <button id="loginBtn" class="btn-header">Login</button>
+                <button id="logoutBtn" class="btn-header hidden">Logout</button>
+                <span id="userGreeting" class="user-greeting hidden"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Feed Container -->
+    <main class="feed-container">
+        <div id="contestFeed" class="contest-feed">
+            <!-- Contest cards will be dynamically loaded here -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading contests...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Feed</span>
+        </a>
+        <a href="explore.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Explore</span>
+        </a>
+        <a href="upload.html" class="nav-item upload-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="leaderboard.html" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Rankings</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Contest Card Template -->
+    <template id="contestCardTemplate">
+        <div class="contest-card" data-contest-id="">
+            <div class="contest-header">
+                <div class="creator-info">
+                    <img src="" alt="Creator" class="creator-avatar">
+                    <div class="creator-details">
+                        <h3 class="creator-name"></h3>
+                        <p class="contest-date"></p>
+                    </div>
+                </div>
+                <div class="contest-status">
+                    <span class="status-badge"></span>
+                </div>
+            </div>
+            
+            <div class="contest-content">
+                <h2 class="contest-title"></h2>
+                <p class="contest-description"></p>
+                <div class="contest-prize">
+                    <i class="fas fa-gift"></i>
+                    <span class="prize-amount"></span>
+                </div>
+            </div>
+
+            <div class="contest-media">
+                <!-- Media content will be inserted here -->
+            </div>
+
+            <div class="contest-info">
+                <div class="countdown-timer">
+                    <i class="fas fa-clock"></i>
+                    <span class="timer-text"></span>
+                </div>
+                <div class="contest-stats">
+                    <span class="participants">
+                        <i class="fas fa-users"></i>
+                        <span class="participant-count">0</span>
+                    </span>
+                    <span class="submissions">
+                        <i class="fas fa-video"></i>
+                        <span class="submission-count">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="contest-actions">
+                <button class="btn-primary enter-contest">
+                    <i class="fas fa-play"></i>
+                    Enter Contest
+                </button>
+                <button class="btn-secondary view-submissions">
+                    <i class="fas fa-eye"></i>
+                    View Entries
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Shake4Cake</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign In</button>
+                </form>
+                <div class="auth-options">
+                    <button id="signupBtn" class="btn-secondary">Create Account</button>
+                    <button id="anonymousBtn" class="btn-secondary">Continue as Guest</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/feed.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>

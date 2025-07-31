@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Contest - Shake4Cake</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/upload.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="page-title">Create Contest</h1>
+            <div class="header-actions">
+                <span id="userGreeting" class="user-greeting"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Upload Form Container -->
+    <main class="upload-container">
+        <form id="contestForm" class="contest-form">
+            <!-- Basic Contest Info -->
+            <section class="form-section">
+                <h2>Contest Details</h2>
+                
+                <div class="form-group">
+                    <label for="contestTitle">Contest Title *</label>
+                    <input type="text" id="contestTitle" placeholder="Give your contest a catchy title..." required maxlength="100">
+                    <small class="char-count">0/100</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contestDescription">Description</label>
+                    <textarea id="contestDescription" placeholder="Describe what participants should do..." maxlength="500" rows="4"></textarea>
+                    <small class="char-count">0/500</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contestPrize">Prize *</label>
+                    <input type="text" id="contestPrize" placeholder="e.g., $100 Gift Card, iPhone, etc." required>
+                </div>
+            </section>
+
+            <!-- Contest Media -->
+            <section class="form-section">
+                <h2>Contest Media</h2>
+                
+                <div class="form-group">
+                    <label>Media Type *</label>
+                    <div class="media-type-selector">
+                        <button type="button" class="media-option" data-type="song">
+                            <i class="fas fa-music"></i>
+                            <span>Song</span>
+                        </button>
+                        <button type="button" class="media-option" data-type="image">
+                            <i class="fas fa-image"></i>
+                            <span>Image</span>
+                        </button>
+                        <button type="button" class="media-option" data-type="video">
+                            <i class="fas fa-video"></i>
+                            <span>Video</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group media-upload hidden" id="mediaUploadSection">
+                    <label for="mediaFile">Upload Media File *</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to select or drag and drop your file</p>
+                            <small class="file-requirements"></small>
+                        </div>
+                        <input type="file" id="mediaFile" accept="" hidden>
+                        <div class="file-preview hidden" id="filePreview">
+                            <!-- File preview will be shown here -->
+                        </div>
+                    </div>
+                    <div class="upload-progress hidden" id="uploadProgress">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">0%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contest Timing -->
+            <section class="form-section">
+                <h2>Contest Duration</h2>
+                
+                <div class="form-group">
+                    <label for="contestEnd">End Date & Time *</label>
+                    <input type="datetime-local" id="contestEnd" required>
+                    <small class="helper-text">Minimum duration: 1 hour</small>
+                </div>
+
+                <div class="duration-preview">
+                    <i class="fas fa-clock"></i>
+                    <span id="durationText">Select end time to see duration</span>
+                </div>
+            </section>
+
+            <!-- Contest Rules -->
+            <section class="form-section">
+                <h2>Contest Rules (Optional)</h2>
+                
+                <div class="form-group">
+                    <label for="contestRules">Additional Rules</label>
+                    <textarea id="contestRules" placeholder="Any specific rules or requirements for participants..." maxlength="1000" rows="3"></textarea>
+                    <small class="char-count">0/1000</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="allowComments" checked>
+                        <span class="checkmark"></span>
+                        Allow comments on submissions
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="publicVoting" checked>
+                        <span class="checkmark"></span>
+                        Enable public voting
+                    </label>
+                </div>
+            </section>
+
+            <!-- Submit Section -->
+            <section class="form-section">
+                <div class="contest-preview">
+                    <h3>Preview</h3>
+                    <div class="preview-card">
+                        <div class="preview-header">
+                            <span class="preview-title">Your contest title will appear here</span>
+                            <span class="preview-prize">Prize: Your prize here</span>
+                        </div>
+                        <div class="preview-media">
+                            <i class="fas fa-image preview-icon"></i>
+                            <span>Media preview</span>
+                        </div>
+                        <div class="preview-info">
+                            <span class="preview-duration">Duration will be calculated</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="history.back()">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-rocket"></i>
+                        Create Contest
+                    </button>
+                </div>
+            </section>
+        </form>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Feed</span>
+        </a>
+        <a href="explore.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Explore</span>
+        </a>
+        <a href="upload.html" class="nav-item upload-btn active">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="leaderboard.html" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Rankings</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal hidden">
+        <div class="modal-content success">
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Contest Created!</h3>
+                <p>Your contest has been successfully created and is now live.</p>
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="window.location.href='index.html'">Go to Feed</button>
+                    <button class="btn-secondary" onclick="window.location.href='profile.html'">View in Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/upload.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>

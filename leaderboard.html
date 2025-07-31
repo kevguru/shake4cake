@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Shake4Cake</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/leaderboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="page-title">🏆 Leaderboard</h1>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn-header">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Overview -->
+    <section class="stats-overview">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="totalUsers">0</h3>
+                <p>Total Users</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="totalContests">0</h3>
+                <p>Active Contests</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="totalSubmissions">0</h3>
+                <p>Total Submissions</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Categories -->
+    <section class="leaderboard-tabs">
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-category="winners">
+                <i class="fas fa-crown"></i>
+                Top Winners
+            </button>
+            <button class="tab-btn" data-category="creators">
+                <i class="fas fa-plus-circle"></i>
+                Top Creators
+            </button>
+            <button class="tab-btn" data-category="participants">
+                <i class="fas fa-star"></i>
+                Most Active
+            </button>
+        </div>
+    </section>
+
+    <!-- User's Current Rank -->
+    <section class="current-user-rank" id="currentUserRank">
+        <div class="rank-card">
+            <div class="rank-position">
+                <span class="rank-number">#--</span>
+            </div>
+            <div class="user-info">
+                <img id="currentUserAvatar" src="" alt="You" class="user-avatar">
+                <div class="user-details">
+                    <h4 id="currentUserName">Your Name</h4>
+                    <p id="currentUserStats">0 wins • 0 submissions</p>
+                </div>
+            </div>
+            <div class="rank-score">
+                <span id="currentUserScore">0</span>
+                <small>points</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Content -->
+    <main class="leaderboard-container">
+        <!-- Top 3 Podium -->
+        <section class="podium-section" id="podiumSection">
+            <div class="podium">
+                <div class="podium-place second">
+                    <div class="rank-badge silver">2</div>
+                    <img src="" alt="2nd Place" class="podium-avatar">
+                    <h4 class="podium-name">Loading...</h4>
+                    <p class="podium-score">0 points</p>
+                </div>
+                <div class="podium-place first">
+                    <div class="rank-badge gold">1</div>
+                    <div class="crown">👑</div>
+                    <img src="" alt="1st Place" class="podium-avatar">
+                    <h4 class="podium-name">Loading...</h4>
+                    <p class="podium-score">0 points</p>
+                </div>
+                <div class="podium-place third">
+                    <div class="rank-badge bronze">3</div>
+                    <img src="" alt="3rd Place" class="podium-avatar">
+                    <h4 class="podium-name">Loading...</h4>
+                    <p class="podium-score">0 points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Rankings -->
+        <section class="rankings-section">
+            <div class="rankings-header">
+                <h3>All Rankings</h3>
+                <div class="filter-options">
+                    <select id="timeFilter">
+                        <option value="all">All Time</option>
+                        <option value="month">This Month</option>
+                        <option value="week">This Week</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="rankingsList" class="rankings-list">
+                <!-- Rankings will be loaded here -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading rankings...</p>
+                </div>
+            </div>
+
+            <div class="load-more-rankings">
+                <button id="loadMoreRankings" class="btn-secondary">
+                    <i class="fas fa-chevron-down"></i>
+                    Load More
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Ranking Item Template -->
+    <template id="rankingTemplate">
+        <div class="ranking-item" data-user-id="">
+            <div class="ranking-position">
+                <span class="rank-number"></span>
+                <div class="rank-change">
+                    <i class="fas fa-arrow-up trend-up"></i>
+                    <i class="fas fa-arrow-down trend-down"></i>
+                    <i class="fas fa-minus trend-same"></i>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <h4 class="username"></h4>
+                    <p class="user-stats"></p>
+                </div>
+                <div class="user-badges">
+                    <!-- Badges will be added here -->
+                </div>
+            </div>
+            
+            <div class="ranking-score">
+                <span class="score-value"></span>
+                <small class="score-label">points</small>
+            </div>
+            
+            <button class="view-profile-btn">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Achievement Badges -->
+    <section class="achievements-section">
+        <h3>Achievement Badges</h3>
+        <div class="badges-grid">
+            <div class="badge-item">
+                <div class="badge-icon first-win">🏆</div>
+                <span>First Win</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon streak">🔥</div>
+                <span>Win Streak</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon popular">❤️</div>
+                <span>Most Liked</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon creative">🎨</div>
+                <span>Creative Master</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon social">👥</div>
+                <span>Social Butterfly</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon veteran">⭐</div>
+                <span>Veteran</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Feed</span>
+        </a>
+        <a href="explore.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Explore</span>
+        </a>
+        <a href="upload.html" class="nav-item upload-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="leaderboard.html" class="nav-item active">
+            <i class="fas fa-trophy"></i>
+            <span>Rankings</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal hidden">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="modalUserName">User Profile</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-summary">
+                    <img id="modalUserAvatar" src="" alt="User" class="large-avatar">
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <h4 id="modalUserRank">#0</h4>
+                            <p>Current Rank</p>
+                        </div>
+                        <div class="stat">
+                            <h4 id="modalUserScore">0</h4>
+                            <p>Total Points</p>
+                        </div>
+                        <div class="stat">
+                            <h4 id="modalUserWins">0</h4>
+                            <p>Contest Wins</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-achievements">
+                    <h4>Achievements</h4>
+                    <div id="modalUserBadges" class="badges-list">
+                        <!-- User badges will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="profile-recent">
+                    <h4>Recent Activity</h4>
+                    <div id="modalUserActivity" class="activity-list">
+                        <!-- Recent activity will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-secondary modal-close">Close</button>
+                    <button id="followUserBtn" class="btn-primary">Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/leaderboard.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>
